@@ -1,14 +1,20 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+"""
+Alfred Script Filter with async Ollama preview.
+Uses Alfred's 'rerun' to poll for results without blocking.
+1st call: spawns Ollama in background, shows "Thinking..."
+2nd+ call: checks cache, shows parsed result when ready.
+"""
 
 import sys
 import os
+import re
 import json
-import socket
-import urllib.request
-import urllib.error
-from datetime import datetime, timedelta
-from typing import Optional, List, Dict
+import hashlib
+import subprocess
+import time
+from typing import Dict
 
 
 OLLAMA_URL = "http://localhost:11434/api/chat"
@@ -16,7 +22,6 @@ DEFAULT_MODEL = "gemma4"
 
 
 def get_workflow_data_dir():
-    """Get Alfred workflow data directory"""
     data_dir = os.getenv('alfred_workflow_data')
     if not data_dir:
         data_dir = os.path.expanduser(
@@ -27,7 +32,6 @@ def get_workflow_data_dir():
 
 
 def load_config() -> Dict:
-    """Load calendar configuration"""
     config_file = os.path.join(get_workflow_data_dir(), 'calendar_config.json')
     try:
         with open(config_file, 'r') as f:
@@ -36,71 +40,68 @@ def load_config() -> Dict:
         return {"default_calendar": "Calendar", "ollama_model": DEFAULT_MODEL}
 
 
-def query_ollama(prompt: str, model: str = None) -> str:
-    """Send a prompt to Ollama and return the response text"""
-    if not model:
-        config = load_config()
-        model = config.get('ollama_model', DEFAULT_MODEL)
+def get_cache_dir():
+    cache_dir = os.path.join(get_workflow_data_dir(), 'preview_cache')
+    os.makedirs(cache_dir, exist_ok=True)
+    return cache_dir
 
-    payload = json.dumps({
-        "model": model,
-        "messages": [{"role": "user", "content": prompt}],
-        "stream": False,
-        "think": False,
-        "options": {
-            "temperature": 0.1,
-            "num_predict": 512
-        }
-    }).encode('utf-8')
 
-    req = urllib.request.Request(
-        OLLAMA_URL,
-        data=payload,
-        headers={"Content-Type": "application/json"}
+def cache_key(query: str) -> str:
+    return hashlib.md5(query.encode()).hexdigest()
+
+
+def get_cached_result(query: str) -> Dict:
+    """Check if we have a cached Ollama result for this query"""
+    path = os.path.join(get_cache_dir(), cache_key(query) + '.json')
+    if os.path.exists(path):
+        # Only use cache if fresh (< 30 seconds old)
+        if time.time() - os.path.getmtime(path) < 30:
+            try:
+                with open(path, 'r') as f:
+                    return json.load(f)
+            except Exception:
+                pass
+    return None
+
+
+def is_worker_running(query: str) -> bool:
+    """Check if a background worker is already processing this query"""
+    lock_path = os.path.join(get_cache_dir(), cache_key(query) + '.lock')
+    if os.path.exists(lock_path):
+        # Consider stale if older than 60s
+        if time.time() - os.path.getmtime(lock_path) < 60:
+            return True
+        else:
+            os.unlink(lock_path)
+    return False
+
+
+def spawn_preview_worker(query: str, default_calendar: str):
+    """Spawn background process to call Ollama and write result to cache"""
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    worker = os.path.join(script_dir, 'preview_worker.py')
+
+    subprocess.Popen(
+        [sys.executable, worker, query, default_calendar],
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
+        stdin=subprocess.DEVNULL,
+        start_new_session=True,
+        cwd=script_dir
     )
-    with urllib.request.urlopen(req, timeout=60) as resp:
-        result = json.loads(resp.read().decode('utf-8'))
-        return result.get("message", {}).get("content", "")
 
 
-def build_preview_prompt(user_input: str, default_calendar: str) -> str:
-    """Build a concise prompt for quick event preview"""
-    now = datetime.now()
-    return f"""Parse this calendar event input into JSON. Current date: {now.strftime("%Y-%m-%d %A")} Time: {now.strftime("%H:%M")}
-Default calendar: {default_calendar}
-
-Rules:
-- If no event title is given, set title to "New Event"
-- If no calendar specified with # prefix, use the default calendar above
-- date_display should be human-friendly (e.g. "Jun 12, 2026 at 5:00 PM")
-
-Return ONLY a JSON object with these keys: "title" (string), "calendar" (string), "date_display" (string), "location" (string or null).
-
-Input: {user_input}"""
-
-
-def format_preview(event: Dict) -> List[Dict]:
-    """Format parsed event into Alfred script filter items"""
-    title = event.get("title") or "New Event"
-    calendar = event.get("calendar") or "Calendar"
-    date_display = event.get("date_display", "")
-    location = event.get("location")
-
-    subtitle_parts = [f"📅 {calendar}"]
-    if date_display:
-        subtitle_parts.append(date_display)
-    if location:
-        subtitle_parts.append(f"📍 {location}")
-
-    subtitle = " • ".join(subtitle_parts)
-
-    return [{
-        "title": title or "Type event details...",
-        "subtitle": subtitle,
-        "arg": " ".join(sys.argv[1:]),
-        "valid": bool(title),
-        "icon": {"path": "icon.png"}
-    }]
+def cleanup_old_cache():
+    """Remove cache files older than 60 seconds"""
+    cache_dir = get_cache_dir()
+    now = time.time()
+    try:
+        for f in os.listdir(cache_dir):
+            path = os.path.join(cache_dir, f)
+            if now - os.path.getmtime(path) > 60:
+                os.unlink(path)
+    except OSError:
+        pass
 
 
 def main():
@@ -108,7 +109,7 @@ def main():
         print(json.dumps({
             "items": [{
                 "title": "Type event details...",
-                "subtitle": "Use natural language to describe your event (powered by Ollama)",
+                "subtitle": "Natural language → calendar event (powered by Ollama)",
                 "valid": False,
                 "icon": {"path": "icon.png"}
             }]
@@ -117,7 +118,6 @@ def main():
 
     query = " ".join(sys.argv[1:])
 
-    # Don't call Ollama for very short input
     if len(query.strip()) < 3:
         print(json.dumps({
             "items": [{
@@ -129,72 +129,51 @@ def main():
         }))
         return
 
-    try:
-        config = load_config()
-        default_calendar = config.get('default_calendar', 'Calendar')
-        prompt = build_preview_prompt(query, default_calendar)
-        response = query_ollama(prompt)
+    config = load_config()
+    default_calendar = config.get('default_calendar', 'Calendar')
 
-        # Parse the response - extract JSON even if wrapped in markdown
-        text = response.strip()
-        if "```" in text:
-            import re
-            match = re.search(r'\{[^{}]*\}', text, re.DOTALL)
-            if match:
-                text = match.group(0)
-        elif not text.startswith("{"):
-            # Try to find JSON object in the response
-            start = text.find("{")
-            end = text.rfind("}") + 1
-            if start >= 0 and end > start:
-                text = text[start:end]
+    # Check if we already have a result
+    cached = get_cached_result(query)
+    if cached:
+        title = cached.get("title") or "New Event"
+        calendar = cached.get("calendar") or default_calendar
+        date_display = cached.get("date_display", "")
+        location = cached.get("location")
 
-        event = json.loads(text)
-        items = format_preview(event)
-        print(json.dumps({"items": items}))
+        subtitle_parts = [f"📅 {calendar}"]
+        if date_display:
+            subtitle_parts.append(date_display)
+        if location:
+            subtitle_parts.append(f"📍 {location}")
+        subtitle = " • ".join(subtitle_parts)
 
-    except socket.timeout:
-        # Model is processing - takes time for larger models
         print(json.dumps({
             "items": [{
-                "title": query,
-                "subtitle": "⏳ Ollama is thinking... (press Enter to create anyway)",
+                "title": title,
+                "subtitle": subtitle,
                 "arg": query,
                 "valid": True,
                 "icon": {"path": "icon.png"}
             }]
         }))
-    except (urllib.error.URLError, ConnectionRefusedError, OSError):
-        # Ollama not running - show helpful message
-        print(json.dumps({
-            "items": [{
-                "title": query,
-                "subtitle": "⚠️ Ollama not running. Start Ollama to enable AI parsing.",
-                "valid": False,
-                "icon": {"path": "icon.png"}
-            }]
-        }))
-    except (json.JSONDecodeError, KeyError, ValueError):
-        # Parsing failed - show raw input as fallback
-        print(json.dumps({
-            "items": [{
-                "title": query,
-                "subtitle": "⏳ Processing with Ollama...",
-                "arg": query,
-                "valid": True,
-                "icon": {"path": "icon.png"}
-            }]
-        }))
-    except Exception:
-        print(json.dumps({
-            "items": [{
-                "title": query,
-                "subtitle": "Press Enter to create event",
-                "arg": query,
-                "valid": True,
-                "icon": {"path": "icon.png"}
-            }]
-        }))
+        return
+
+    # No cached result yet — spawn worker if not already running
+    if not is_worker_running(query):
+        spawn_preview_worker(query, default_calendar)
+        cleanup_old_cache()
+
+    # Return "thinking" result with rerun to auto-refresh
+    print(json.dumps({
+        "rerun": 0.5,
+        "items": [{
+            "title": query,
+            "subtitle": "🧠 Ollama is parsing... (press ↵ to create now)",
+            "arg": query,
+            "valid": True,
+            "icon": {"path": "icon.png"}
+        }]
+    }))
 
 
 if __name__ == "__main__":
