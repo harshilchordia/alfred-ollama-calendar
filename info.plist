@@ -222,7 +222,7 @@
 				<key>scriptargtype</key>
 				<integer>1</integer>
 				<key>scriptfile</key>
-				<string>calendar_nlp.py</string>
+				<string>calendar_dispatch.py</string>
 				<key>type</key>
 				<integer>8</integer>
 			</dict>
