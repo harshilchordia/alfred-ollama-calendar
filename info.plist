@@ -1,0 +1,650 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>bundleid</key>
+	<string></string>
+	<key>connections</key>
+	<dict>
+		<key>615E51DB-AC60-408B-8153-E071D4718E0F</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>C2D3E4F5-A6B7-4C8D-9E0F-1A2B3C4D5E6F</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>FB72E0A9-26B4-4764-87E1-8381FF60401F</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>A5B3C8D9-E0F1-4G2H-I3J4-K5L6M7N8O9P0</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>B7D4E8F9-C0A1-4B2C-D3E4-F5G6H7I8J9K0</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>B7D4E8F9-C0A1-4B2C-D3E4-F5G6H7I8J9K0</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>C2D3E4F5-A6B7-4C8D-9E0F-1A2B3C4D5E6F</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+			<dict>
+				<key>destinationuid</key>
+				<string>FB72E0A9-26B4-4764-87E1-8381FF60401F</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>F36E2EDF-5F36-4E04-A4BC-FF488023114C</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>615E51DB-AC60-408B-8153-E071D4718E0F</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+		<key>D1E2F3A4-B5C6-4D7E-8F9A-0B1C2D3E4F5A</key>
+		<array>
+			<dict>
+				<key>destinationuid</key>
+				<string>615E51DB-AC60-408B-8153-E071D4718E0F</string>
+				<key>modifiers</key>
+				<integer>0</integer>
+				<key>modifiersubtext</key>
+				<string></string>
+				<key>vitoclose</key>
+				<false/>
+			</dict>
+		</array>
+	</dict>
+	<key>createdby</key>
+	<string>Harshil</string>
+	<key>description</key>
+	<string></string>
+	<key>disabled</key>
+	<false/>
+	<key>name</key>
+	<string>AI Calendar</string>
+	<key>objects</key>
+	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>soundname</key>
+				<string>Blow</string>
+				<key>systemsound</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.playsound</string>
+			<key>uid</key>
+			<string>C2D3E4F5-A6B7-4C8D-9E0F-1A2B3C4D5E6F</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>script</key>
+				<string>./calendar_profile.py --set:"$1"</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>type</key>
+				<integer>0</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>B7D4E8F9-C0A1-4B2C-D3E4-F5G6H7I8J9K0</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<false/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>0</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<false/>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>1</integer>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>keyword</key>
+				<string>{var:trigger2}</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string>Loading calendars...</string>
+				<key>script</key>
+				<string>./calendar_profile.py "$1"</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string>Select default calendar</string>
+				<key>title</key>
+				<string>Set Default Calendar</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>A5B3C8D9-E0F1-4G2H-I3J4-K5L6M7N8O9P0</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>lastpathcomponent</key>
+				<false/>
+				<key>onlyshowifquerypopulated</key>
+				<true/>
+				<key>removeextension</key>
+				<false/>
+				<key>text</key>
+				<string>{query}</string>
+				<key>title</key>
+				<string>{var:notificationTitle}</string>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.output.notification</string>
+			<key>uid</key>
+			<string>FB72E0A9-26B4-4764-87E1-8381FF60401F</string>
+			<key>version</key>
+			<integer>1</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>concurrently</key>
+				<false/>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>script</key>
+				<string></string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string>calendar_nlp.py</string>
+				<key>type</key>
+				<integer>8</integer>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.action.script</string>
+			<key>uid</key>
+			<string>615E51DB-AC60-408B-8153-E071D4718E0F</string>
+			<key>version</key>
+			<integer>2</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<false/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>0</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<true/>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>0</integer>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>keyword</key>
+				<string>{var:trigger1}</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string>Processing input...</string>
+				<key>script</key>
+				<string>./preview.py "$1"</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string>Use natural language to add event</string>
+				<key>title</key>
+				<string>Add Calendar Event</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<true/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>F36E2EDF-5F36-4E04-A4BC-FF488023114C</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>alfredfiltersresults</key>
+				<false/>
+				<key>alfredfiltersresultsmatchmode</key>
+				<integer>0</integer>
+				<key>argumenttreatemptyqueryasnil</key>
+				<true/>
+				<key>argumenttrimmode</key>
+				<integer>0</integer>
+				<key>argumenttype</key>
+				<integer>2</integer>
+				<key>escaping</key>
+				<integer>102</integer>
+				<key>keyword</key>
+				<string>{var:trigger3}</string>
+				<key>queuedelaycustom</key>
+				<integer>3</integer>
+				<key>queuedelayimmediatelyinitially</key>
+				<true/>
+				<key>queuedelaymode</key>
+				<integer>0</integer>
+				<key>queuemode</key>
+				<integer>1</integer>
+				<key>runningsubtext</key>
+				<string>Analyzing clipboard image with AI...</string>
+				<key>script</key>
+				<string>./calendar_image.py</string>
+				<key>scriptargtype</key>
+				<integer>1</integer>
+				<key>scriptfile</key>
+				<string></string>
+				<key>subtext</key>
+				<string>Create event from clipboard image (screenshot/photo)</string>
+				<key>title</key>
+				<string>Image to Calendar Event</string>
+				<key>type</key>
+				<integer>0</integer>
+				<key>withspace</key>
+				<false/>
+			</dict>
+			<key>type</key>
+			<string>alfred.workflow.input.scriptfilter</string>
+			<key>uid</key>
+			<string>D1E2F3A4-B5C6-4D7E-8F9A-0B1C2D3E4F5A</string>
+			<key>version</key>
+			<integer>3</integer>
+		</dict>
+	</array>
+	<key>readme</key>
+	<string># Natural Language Calendar Alfred Workflow
+
+An Alfred workflow that allows you to create calendar events using natural language.
+
+## Features
+
+- Create events using natural language
+- Support for locations, alerts, notes, and URLs
+- Recurring events support
+- Multiple calendar support
+- Date ranges and time specifications
+- Smart parsing of event details
+
+## Installation
+
+1. Download the latest release from the releases page
+2. Double click the `.alfredworkflow` file to install
+3. Set up your default calendar using `clprofile`
+
+## Usage
+
+The workflow provides two commands:
+
+### `cl` - Create Calendar Event
+
+Examples:
+```
+cl meeting tomorrow at 2pm
+cl lunch at Starbucks tomorrow 1pm
+cl meeting tomorrow 2pm notes: Discuss project
+cl zoom call tomorrow 3pm url: https://zoom.us/j/123
+cl meeting tomorrow 2pm with 30min alert
+cl team sync every monday at 10am
+```
+
+### `clprofile` - Set Default Calendar
+
+## Basic Event Creation
+
+&gt; ❌ ← Means it's still not working as expected
+
+```bash
+# Simple event with time
+cl meeting at 2pm
+cl lunch at 12pm
+
+# Event for tomorrow
+cl meeting tomorrow at 3pm
+cl coffee break tomorrow 10:30am
+
+# Event for specific day
+cl meeting thursday at 2pm
+```
+
+## Location Handling
+
+```sh
+# Event with simple location
+cl lunch at Starbucks tomorrow 1pm
+
+# Location with multiple words
+cl meeting at Central Business District 3pm
+cl dinner at The Coffee Bean &amp; Tea Leaf 7pm
+
+# Location with building/room
+cl meeting at Conference Room A tomorrow 2pm
+```
+
+## Calendar Selection
+
+```
+# Using default calendar
+cl meeting at 2pm
+
+# Explicitly selecting calendar with #
+cl #work meeting at 2pm
+cl #personal dinner at 7pm
+cl #family lunch tomorrow 1pm
+```
+
+## Duration Specification
+
+```
+# Specific duration in hours
+cl meeting tomorrow 2pm for 2 hours
+cl workshop at 10am for 3 hours
+
+# Duration in minutes
+cl call at 3pm for 30 minutes
+
+# Time range format
+cl meeting 2-3pm ❌
+cl training 9:30am-11:30am ❌
+```
+
+## Reminders/Alert
+
+```
+# Minutes before
+cl meeting tomorrow 2pm with 30min alert 
+cl lunch at 1pm with 15min reminder
+
+# Hours before
+cl meeting at 3pm alert 1 hour before
+cl call tomorrow 2pm with 2 hours reminder
+
+# Multiple alerts
+cl meeting tomorrow 3pm with 1 hour alert with 15min alert
+```
+
+## Notes And URL
+
+```
+# Adding notes
+cl meeting tomorrow 2pm notes: Remember to bring laptop
+cl lunch 1pm notes: Budget discussion
+
+# Adding URLs (especially for virtual meetings)
+cl zoom meeting 3pm url: https://zoom.us/j/123456
+cl meeting 2pm url: https://meet.google.com/abc-def-ghi
+
+# Combining notes and URLs
+cl meeting 2pm url: https://zoom.us/j/123456 notes: Quarterly review
+```
+
+## Recurring Events
+
+```sh
+# Weekly recurring
+cl team sync every monday at 10am
+cl meeting every friday at 2pm
+
+# Multiple days recurring
+cl gym every monday and wednesday at 6pm ❌
+cl class every tuesday and thursday at 3pm
+
+# Daily recurring
+cl standup every day at 9am
+
+# Monthly recurring
+cl team meeting every month at 2pm ❌
+
+# Yearly recurring
+cl birthday every year on 5/16 ❌
+
+# Recurring with end date
+cl lunch every tuesday until 2/5 ❌
+```
+
+## Date Ranges
+
+```sh
+# Multi-day events
+cl vacation from August 9-18 ❌
+cl conference from 6/15 to 6/17 ❌
+
+# Date range with times
+cl training from 1/21 to 2/23 at 2pm ❌
+```
+
+## Complex Combination
+
+```
+# Location + Notes + Alert
+cl haircut at Quick Cuts tomorrow 10am alert 30 minutes notes: Ask for John
+
+# Recurring + Location + Calendar
+cl #work team meeting at Conference Room A every monday 2pm
+
+# Full featured event
+cl #work project review at Room 301 tomorrow 2pm for 2 hours with 15min alert notes: Bring Q4 reports url: https://zoom.us/j/123456
+```
+
+## Relative Time
+
+```
+# Immediate events
+cl quick meeting now
+
+# Near future
+cl meeting in 30 minutes ❌
+cl call in 2 hours ❌
+```
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.</string>
+	<key>uidata</key>
+	<dict>
+		<key>615E51DB-AC60-408B-8153-E071D4718E0F</key>
+		<dict>
+			<key>xpos</key>
+			<real>315</real>
+			<key>ypos</key>
+			<real>360</real>
+		</dict>
+		<key>A5B3C8D9-E0F1-4G2H-I3J4-K5L6M7N8O9P0</key>
+		<dict>
+			<key>xpos</key>
+			<real>85</real>
+			<key>ypos</key>
+			<real>170</real>
+		</dict>
+		<key>B7D4E8F9-C0A1-4B2C-D3E4-F5G6H7I8J9K0</key>
+		<dict>
+			<key>xpos</key>
+			<real>310</real>
+			<key>ypos</key>
+			<real>170</real>
+		</dict>
+		<key>C2D3E4F5-A6B7-4C8D-9E0F-1A2B3C4D5E6F</key>
+		<dict>
+			<key>xpos</key>
+			<real>700</real>
+			<key>ypos</key>
+			<real>15</real>
+		</dict>
+		<key>D1E2F3A4-B5C6-4D7E-8F9A-0B1C2D3E4F5A</key>
+		<dict>
+			<key>xpos</key>
+			<real>85</real>
+			<key>ypos</key>
+			<real>530</real>
+		</dict>
+		<key>F36E2EDF-5F36-4E04-A4BC-FF488023114C</key>
+		<dict>
+			<key>xpos</key>
+			<real>85</real>
+			<key>ypos</key>
+			<real>360</real>
+		</dict>
+		<key>FB72E0A9-26B4-4764-87E1-8381FF60401F</key>
+		<dict>
+			<key>xpos</key>
+			<real>570</real>
+			<key>ypos</key>
+			<real>250</real>
+		</dict>
+	</dict>
+	<key>userconfigurationconfig</key>
+	<array>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>default</key>
+				<string>cl</string>
+				<key>placeholder</key>
+				<string></string>
+				<key>required</key>
+				<false/>
+				<key>trim</key>
+				<true/>
+			</dict>
+			<key>description</key>
+			<string>Set the keyword for natural language calendar</string>
+			<key>label</key>
+			<string>🗓️️ Natural Language</string>
+			<key>type</key>
+			<string>textfield</string>
+			<key>variable</key>
+			<string>trigger1</string>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>default</key>
+				<string>clprofile</string>
+				<key>placeholder</key>
+				<string></string>
+				<key>required</key>
+				<false/>
+				<key>trim</key>
+				<true/>
+			</dict>
+			<key>description</key>
+			<string>Set keyword for profile setup calendar</string>
+			<key>label</key>
+			<string>🗓️️ Set Profile</string>
+			<key>type</key>
+			<string>textfield</string>
+			<key>variable</key>
+			<string>trigger2</string>
+		</dict>
+		<dict>
+			<key>config</key>
+			<dict>
+				<key>default</key>
+				<string>climg</string>
+				<key>placeholder</key>
+				<string></string>
+				<key>required</key>
+				<false/>
+				<key>trim</key>
+				<true/>
+			</dict>
+			<key>description</key>
+			<string>Set keyword for image-to-event (reads clipboard image)</string>
+			<key>label</key>
+			<string>📷 Image Recognition</string>
+			<key>type</key>
+			<string>textfield</string>
+			<key>variable</key>
+			<string>trigger3</string>
+		</dict>
+	</array>
+	<key>version</key>
+	<string>1.1.0</string>
+	<key>webaddress</key>
+	<string>https://github.com/ariestwn/alfred-natural-calendar</string>
+</dict>
+</plist>
